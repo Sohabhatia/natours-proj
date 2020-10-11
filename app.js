@@ -1,10 +1,13 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
+
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
+
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controller/errorController');
 const rateLimit = require('express-rate-limit');
@@ -47,8 +50,9 @@ app.use(
       baseUri: ["'self'"],
       fontSrc: ["'self'", 'https:', 'data:'],
       scriptSrc: ["'self'", 'https://*.cloudflare.com'],
-
+      scriptSrc: ["'self'", 'https://*.stripe.com'],
       frameSrc: ["'self'", 'https://*.stripe.com'],
+
       objectSrc: ["'none'"],
       styleSrc: ["'self'", 'https:', "'unsafe-inline'"],
     },
@@ -95,6 +99,7 @@ app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/bookings', bookingRoutes);
 
 app.all('*', (req, res, next) => {
   // const err = new Error(`Can't find ${req.originalUrl} on this server`);
