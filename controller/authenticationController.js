@@ -67,19 +67,11 @@ exports.login = catchError(async (req, res, next) => {
     const err = new AppError('Please enter a valid email or password!', 400);
     return next(err);
   }
-
+  //res.set('Cache-Control','no-cache ,private ,no-store ,must-revalidate ,post-check=0 ,pre-check=0' )
   sendToken(user, 200, res);
 });
 
-exports.logout = (req, res, next) => {
-  res.cookie('jwt', 'loggedout', {
-    expires: new Date(Date.now() - 10 * 1000),
-    httpOnly: true,
-  });
-  res.status(200).json({
-    status: 'success',
-  });
-};
+
 
 //for accessing routes AUTHENTIFICATION
 exports.protect = catchError(async (req, res, next) => {
@@ -134,7 +126,7 @@ exports.isLoggedIn = async (req, res, next) => {
   try {
     if (req.cookies.jwt) {
       //Verify the cookie
-
+      
       const decoded = await jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
 
       //Check if the user still exists
@@ -151,11 +143,15 @@ exports.isLoggedIn = async (req, res, next) => {
       //THERE IS A LOGGED IN USER
 
       res.locals.user = currentUser;
+      console.log('detail');
+      res.set('Cache-Control','no-cache ,private ,no-store ,must-revalidate ,post-check=0 ,pre-check=0' )
       return next();
     }
+    
   } catch (err) {
     return next();
   }
+  
   next();
 };
 
@@ -169,6 +165,18 @@ exports.restrictRole = (...roles) => {
     }
     next();
   };
+};
+
+
+exports.logout = (req, res, next) => {
+  res.cookie('jwt', 'loggedout', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+  //res.set('Cache-Control','no-cache ,private ,no-store ,must-revalidate ,post-check=0 ,pre-check=0' )
+  res.status(200).json({
+    status: 'success',
+  });
 };
 
 exports.forgotPassword = catchError(async (req, res, next) => {

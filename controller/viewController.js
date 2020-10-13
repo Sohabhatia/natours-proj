@@ -5,7 +5,7 @@ const { login } = require('./authenticationController');
 
 exports.getOverview = catchError(async (req, res, next) => {
   const tours = await Tour.find();
-
+ 
   res.status(200).render('overview', {
     title: 'All Tours',
     tours: tours,
@@ -17,6 +17,7 @@ exports.getTours = catchError(async (req, res) => {
     path: 'reviews',
     fields: 'review rating user',
   });
+  
   res.status(200).render('tour', {
     title: 'The Forest Hiker',
     tour,
@@ -24,6 +25,7 @@ exports.getTours = catchError(async (req, res) => {
 });
 
 exports.getLogin = catchError(async (req, res) => {
+  
   res.status(200).render('login', {
     title: 'Log into your account',
   });

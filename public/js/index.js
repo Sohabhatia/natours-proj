@@ -19,7 +19,8 @@ if (loginform)
     login(email, password);
   });
 
-if (logoutBtn) logoutBtn.addEventListener('click', logout);
+if (logoutBtn)
+  logoutBtn.addEventListener('click', logout);
 
 if (userDataForm)
   userDataForm.addEventListener('submit', (e) => {

@@ -11,8 +11,8 @@ export const login = async (email, password) => {
     });
 
     if (res.data.status === 'success') {
-      showAlert('success', 'Logged in successful!');
-      location.reload();
+      //showAlert('success', 'Logged in successful!');
+      window.location.replace('/');
     }
   } catch (error) {
     showAlert('error', error.response.data.message);

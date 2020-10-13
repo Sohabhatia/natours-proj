@@ -8424,7 +8424,7 @@ var logout = /*#__PURE__*/function () {
             res = _context.sent;
 
             if (res.data.status === 'success') {
-              location.reload();
+              window.location.replace('http://localhost:3000/login');
             }
 
             _context.next = 10;
@@ -8485,8 +8485,8 @@ var login = /*#__PURE__*/function () {
             res = _context.sent;
 
             if (res.data.status === 'success') {
-              (0, _alert.showAlert)('success', 'Logged in successful!');
-              location.reload();
+              //showAlert('success', 'Logged in successful!');
+              window.location.replace('/');
             }
 
             _context.next = 10;
